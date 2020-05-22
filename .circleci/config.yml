@@ -1,0 +1,18 @@
+version: 2.1
+orbs: 
+  sfdx: circleci/salesforce-sfdx@1.0
+jobs: 
+  install_authenticate: 
+    executor: sfdx/default
+    steps: 
+      - checkout
+      - sfdx/install
+      - sfdx/auth:
+          defaultusername: admin@devhub.sfdevjp
+      - run: 
+          name: Check Org Limit
+          command: sfdx force:limits:api:display -u admin@devhub.sfdevjp
+workflows: 
+  basic-test: 
+    jobs: 
+      - install_authenticate
